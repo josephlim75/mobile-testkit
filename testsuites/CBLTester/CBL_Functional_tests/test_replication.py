@@ -630,7 +630,6 @@ def test_CBL_tombstone_doc(params_from_base_test_setup, num_of_docs):
     replicator.wait_until_replicator_idle(repl)
     replicator.stop(repl)
     cbl_doc_ids = db.getDocIds(cbl_db)
-    log_info("cbl_doc_ids are: {}".format(cbl_doc_ids))
     assert doc_id not in cbl_doc_ids, "doc is expected to be deleted in CBL ,but not deleted"
 
 
@@ -1312,7 +1311,7 @@ def test_default_conflict_scenario_delete_wins(params_from_base_test_setup, dele
         @summary:
         1. Create docs in CBL.
         2. Replicate docs to SG.
-        3. using mutlithreading, update same 
+        3. using mutlithreading, update same
         doc in Sg and delete doc in CBL
         4. Verify delete wins
     """
@@ -1361,10 +1360,10 @@ def test_default_conflict_scenario_delete_wins(params_from_base_test_setup, dele
     if delete_source == 'sg':
         sg_client.delete_docs(url=sg_url, db=sg_db, docs=sg_docs, auth=session)
         db.update_bulk_docs(cbl_db)
-    
+
     cbl_doc_ids = db.getDocIds(cbl_db)
     cbl_docs = db.getDocuments(cbl_db, cbl_doc_ids)
-    assert len(cbl_docs) == 0 ,"did not delete docs after delete operation"
+    assert len(cbl_docs) == 0, "did not delete docs after delete operation"
     repl_config = replicator.configure(cbl_db, sg_blip_url, continuous=True, channels=channels, replicator_authenticator=replicator_authenticator)
     repl = replicator.create(repl_config)
     replicator.start(repl)
@@ -1372,10 +1371,8 @@ def test_default_conflict_scenario_delete_wins(params_from_base_test_setup, dele
 
     cbl_doc_ids = db.getDocIds(cbl_db)
     cbl_docs = db.getDocuments(cbl_db, cbl_doc_ids)
-    print "cbl docs are ", cbl_docs
-    assert len(cbl_docs) == 0 ,"did not delete docs after delete operation"
+    assert len(cbl_docs) == 0, "did not delete docs after delete operation"
     sg_docs = sg_client.get_all_docs(url=sg_url, db=sg_db, auth=session)
     sg_docs = sg_docs["rows"]
-    assert len(sg_docs) == 0 ,"did not delete docs in sg after delete operation in CBL"
+    assert len(sg_docs) == 0, "Did not delete docs in sg after delete operation in CBL"
     replicator.stop(repl)
-    

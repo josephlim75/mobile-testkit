@@ -7,8 +7,6 @@ from keywords.utils import host_for_url
 from couchbase.bucket import Bucket
 from couchbase.n1ql import N1QLQuery
 import numpy as np
-from CBLClient.Document import Document
-from botocore import docs
 
 
 def test_get_doc_ids(params_from_base_test_setup):
@@ -483,7 +481,6 @@ def test_query_substring(params_from_base_test_setup, select_property1, select_p
 
     assert len(docs_from_cbl) == len(docs_from_n1ql)
     for doc in docs_from_cbl:
-        print "doc for cbl is ", doc
         assert doc in docs_from_n1ql
     log_info("Doc contents match")
 
@@ -625,20 +622,16 @@ def test_query_join(params_from_base_test_setup, select_property1,
     ("firstname", "lastname", "name", "department", "code", "type", "type", "employee", "department")
 ])
 def test_query_join2(params_from_base_test_setup, select_property1,
-                    select_property2, select_property3, join_key1,
-                    join_key2, whr_key1, whr_key2, whr_val1, whr_val2):
-    cluster_topology = params_from_base_test_setup["cluster_topology"]
+                     select_property2, select_property3, join_key1,
+                     join_key2, whr_key1, whr_key2, whr_val1, whr_val2):
     source_db = params_from_base_test_setup["source_db"]
-    cbs_url = cluster_topology['couchbase_servers'][0]
     base_url = params_from_base_test_setup["base_url"]
-    cbs_ip = host_for_url(cbs_url)
 
     log_info("Fetching docs from CBL through query")
     qy = Query(base_url)
-    limit = 5
-    result_set = qy.query_join2(source_db, select_property1, 
-                                select_property2, select_property3, 
-                                join_key1, join_key2, whr_key1, 
+    result_set = qy.query_join2(source_db, select_property1,
+                                select_property2, select_property3,
+                                join_key1, join_key2, whr_key1,
                                 whr_key2, whr_val1, whr_val2)
 
     docs_from_cbl = []
@@ -1178,11 +1171,8 @@ def test_single_property_fts(params_from_base_test_setup, prop, val, doc_type, s
     Fetches a doc
     Tests the below query
     """
-    cluster_topology = params_from_base_test_setup["cluster_topology"]
     source_db = params_from_base_test_setup["source_db"]
-    cbs_url = cluster_topology['couchbase_servers'][0]
     base_url = params_from_base_test_setup["base_url"]
-    cbs_ip = host_for_url(cbs_url)
 
     # Get doc from CBL through query
     qy = Query(base_url)
@@ -1223,12 +1213,9 @@ def test_multiple_property_fts(params_from_base_test_setup, prop1, prop2, val, d
     Fetches a doc
     Tests the below query
     """
-    cluster_topology = params_from_base_test_setup["cluster_topology"]
     source_db = params_from_base_test_setup["source_db"]
-    cbs_url = cluster_topology['couchbase_servers'][0]
     base_url = params_from_base_test_setup["base_url"]
-    cbs_ip = host_for_url(cbs_url)
-    
+
     # Get doc from CBL through query
     qy = Query(base_url)
     limit = 10
@@ -1251,11 +1238,8 @@ def test_fts_with_ranking(params_from_base_test_setup, prop, val, doc_type):
     Fetches a doc
     Tests the below query
     """
-    cluster_topology = params_from_base_test_setup["cluster_topology"]
     source_db = params_from_base_test_setup["source_db"]
-    cbs_url = cluster_topology['couchbase_servers'][0]
     base_url = params_from_base_test_setup["base_url"]
-    cbs_ip = host_for_url(cbs_url)
 
     # Get doc from CBL through query
     qy = Query(base_url)

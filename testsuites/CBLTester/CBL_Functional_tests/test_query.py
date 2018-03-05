@@ -683,7 +683,7 @@ def test_equal_to(params_from_base_test_setup, prop, val):
 
     assert len(docs_from_cbl) == len(docs_from_n1ql)
     log_info("Found {} docs".format(len(docs_from_cbl)))
-    assert np.array_equal(docs_from_cbl, docs_from_n1ql)
+    assert np.array_equal(sorted(docs_from_cbl), sorted(docs_from_n1ql))
     log_info("Doc contents match between CBL and n1ql")
 
 
@@ -730,7 +730,7 @@ def test_not_equal_to(params_from_base_test_setup, prop, val):
 
     assert len(docs_from_cbl) == len(docs_from_n1ql)
     log_info("Found {} docs".format(len(docs_from_cbl)))
-    assert np.array_equal(docs_from_cbl, docs_from_n1ql)
+    assert np.array_equal(sorted(docs_from_cbl), sorted(docs_from_n1ql))
     log_info("Doc contents match between CBL and n1ql")
 
 
@@ -776,7 +776,7 @@ def test_greater_than(params_from_base_test_setup, prop, val):
 
     assert len(docs_from_cbl) == len(docs_from_n1ql)
     log_info("Found {} docs".format(len(docs_from_cbl)))
-    assert np.array_equal(docs_from_cbl, docs_from_n1ql)
+    assert np.array_equal(sorted(docs_from_cbl), sorted(docs_from_n1ql))
     log_info("Doc contents match between CBL and n1ql")
 
 
@@ -822,7 +822,7 @@ def test_greater_than_or_equal_to(params_from_base_test_setup, prop, val):
 
     assert len(docs_from_cbl) == len(docs_from_n1ql)
     log_info("Found {} docs".format(len(docs_from_cbl)))
-    assert np.array_equal(docs_from_cbl, docs_from_n1ql)
+    assert np.array_equal(sorted(docs_from_cbl), sorted(docs_from_n1ql))
     log_info("Doc contents match between CBL and n1ql")
 
 
@@ -868,7 +868,7 @@ def test_less_than(params_from_base_test_setup, prop, val):
 
     assert len(docs_from_cbl) == len(docs_from_n1ql)
     log_info("Found {} docs".format(len(docs_from_cbl)))
-    assert np.array_equal(docs_from_cbl, docs_from_n1ql)
+    assert np.array_equal(sorted(docs_from_cbl), sorted(docs_from_n1ql))
     log_info("Doc contents match between CBL and n1ql")
 
 
@@ -914,7 +914,7 @@ def test_less_than_or_equal_to(params_from_base_test_setup, prop, val):
 
     assert len(docs_from_cbl) == len(docs_from_n1ql)
     log_info("Found {} docs".format(len(docs_from_cbl)))
-    assert np.array_equal(docs_from_cbl, docs_from_n1ql)
+    assert np.array_equal(sorted(docs_from_cbl), sorted(docs_from_n1ql))
     log_info("Doc contents match between CBL and n1ql")
 
 
@@ -960,7 +960,7 @@ def test_in(params_from_base_test_setup, prop, val1, val2):
 
     assert len(docs_from_cbl) == len(docs_from_n1ql)
     log_info("Found {} docs".format(len(docs_from_cbl)))
-    assert np.array_equal(docs_from_cbl, docs_from_n1ql)
+    assert np.array_equal(sorted(docs_from_cbl), sorted(docs_from_n1ql))
     log_info("Doc contents match between CBL and n1ql")
 
 
@@ -1006,7 +1006,7 @@ def test_between(params_from_base_test_setup, prop, val1, val2):
 
     assert len(docs_from_cbl) == len(docs_from_n1ql)
     log_info("Found {} docs".format(len(docs_from_cbl)))
-    assert np.array_equal(docs_from_cbl, docs_from_n1ql)
+    assert np.array_equal(sorted(docs_from_cbl), sorted(docs_from_n1ql))
     log_info("Doc contents match between CBL and n1ql")
 
 
@@ -1053,7 +1053,7 @@ def test_is(params_from_base_test_setup, prop):
 
     assert len(docs_from_cbl) == len(docs_from_n1ql)
     log_info("Found {} docs".format(len(docs_from_cbl)))
-    assert np.array_equal(docs_from_cbl, docs_from_n1ql)
+    assert np.array_equal(sorted(docs_from_cbl), sorted(docs_from_n1ql))
     log_info("Doc contents match between CBL and n1ql")
 
 
@@ -1100,7 +1100,7 @@ def test_isnot(params_from_base_test_setup, prop):
 
     assert len(docs_from_cbl) == len(docs_from_n1ql)
     log_info("Found {} docs".format(len(docs_from_cbl)))
-    assert np.array_equal(docs_from_cbl, docs_from_n1ql)
+    assert np.array_equal(sorted(docs_from_cbl), sorted(docs_from_n1ql))
     log_info("Doc contents match between CBL and n1ql")
 
 
@@ -1126,7 +1126,7 @@ def test_not(params_from_base_test_setup, prop, val1, val2):
 
     # Get doc from CBL through query
     qy = Query(base_url)
-    result_set = qy.query_between(source_db, prop, val1, val2)
+    result_set = qy.query_not(source_db, prop, val1, val2)
 
     docs_from_cbl = []
     if result_set != -1 and result_set is not None:
@@ -1146,7 +1146,7 @@ def test_not(params_from_base_test_setup, prop, val1, val2):
 
     assert len(docs_from_cbl) == len(docs_from_n1ql)
     log_info("Found {} docs".format(len(docs_from_cbl)))
-    assert np.array_equal(docs_from_cbl, docs_from_n1ql)
+    assert np.array_equal(sorted(docs_from_cbl), sorted(docs_from_n1ql))
     log_info("Doc contents match between CBL and n1ql")
 
 

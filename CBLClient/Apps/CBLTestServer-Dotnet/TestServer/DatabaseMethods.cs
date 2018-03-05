@@ -315,6 +315,26 @@ namespace Couchbase.Lite.Testing
             response.WriteEmptyBody();
         }
 
+        internal static void DatabaseDeleteBulkDocs([NotNull] NameValueCollection args,
+                                                    [NotNull] IReadOnlyDictionary<string, object> postBody,
+                                                    [NotNull] HttpListenerResponse response)
+        {
+            var docIds = ((IEnumerable<object>)postBody["doc_ids"]).OfType<String>();
+            With<Database>(postBody, "database", db =>
+            {
+                db.InBatch(() =>
+                {
+                    foreach (String docId in docIds)
+                    {
+                        MutableDocument document = db.GetDocument(docId).ToMutable();
+                        db.Delete(document);
+
+                    }
+                });
+            });
+            response.WriteEmptyBody();
+        }
+
         internal static void DatabaseSaveDocuments([NotNull] NameValueCollection args,
                                                    [NotNull] IReadOnlyDictionary<string, object> postBody,
                                                    [NotNull] HttpListenerResponse response)

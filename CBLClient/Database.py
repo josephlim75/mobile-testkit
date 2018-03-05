@@ -200,7 +200,7 @@ class Database(object):
 #         args.setString("property", prop)
 #         return self._client.invokeMethod("create_valueIndex", args)
 
-    def create_bulk_docs(self, number, id_prefix, db, channels=None, generator=None, attachments_generator=None):
+    def create_bulk_docs(self, number, id_prefix, db, channels=None, generator=None, attachments_generator=None, id_start_num=0):
         """
         if id_prefix == None, generate a uuid for each doc
 
@@ -213,7 +213,7 @@ class Database(object):
 
         log_info("PUT {} docs to with prefix {}".format(number, id_prefix))
 
-        for i in xrange(number):
+        for i in xrange(id_start_num, id_start_num + number):
 
             if generator == "four_k":
                 doc_body = doc_generators.four_k()
@@ -239,10 +239,19 @@ class Database(object):
             added_docs[doc_id] = doc_body
         self.saveDocuments(db, added_docs)
 
-    def update_bulk_docs(self, database, number_of_updates=1):
+    def delete_bulk_docs(self, database, doc_ids=[]):
+        if not doc_ids:
+            doc_ids = self.getDocIds(database)
+        args = Args()
+        args.setMemoryPointer("database", database)
+        args.setArray("doc_ids", doc_ids)
+        return self._client.invokeMethod("database_deleteBulkDocs", args)
+
+    def update_bulk_docs(self, database, number_of_updates=1, doc_ids=[]):
 
         updated_docs = {}
-        doc_ids = self.getDocIds(database)
+        if not doc_ids:
+            doc_ids = self.getDocIds(database)
         log_info("updating bulk docs")
 
         docs = self.getDocuments(database, doc_ids)
